@@ -7,10 +7,12 @@ import Container from "@/components/layout/Container";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/queries/useAuth";
+import { useSiteBrand } from "@/components/layout/SiteBrand";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, isLoggingIn } = useAuth();
+  const { siteName } = useSiteBrand();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,7 +30,7 @@ export default function LoginPage() {
       >
         <div>
           <h1 className="text-2xl font-bold">Login</h1>
-          <p className="text-sm opacity-70">Welcome back to FlexShop</p>
+          <p className="text-sm text-base-content/80">Welcome back to {siteName}</p>
         </div>
 
         <Input

@@ -32,6 +32,9 @@ export default function AdminNavbar() {
           <Link href="/admin/orders" className="btn btn-ghost btn-xs">
             Orders
           </Link>
+          <Link href="/admin/settings" className="btn btn-ghost btn-xs">
+            Store
+          </Link>
         </div>
 
         <div className="hidden min-w-0 lg:block">

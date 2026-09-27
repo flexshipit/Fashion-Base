@@ -9,6 +9,7 @@ import PaymentMethod from "@/components/checkout/PaymentMethod";
 import OrderSummary from "@/components/checkout/OrderSummary";
 import Button from "@/components/ui/Button";
 import { saveGuestOrder } from "@/lib/utils/guestOrders";
+import { useCart } from "@/hooks/queries/useCart";
 
 const emptyDelivery = {
   name: "",
@@ -32,6 +33,8 @@ export default function CheckoutForm() {
   const [transactionId, setTransactionId] = useState("");
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [fallbackItem, setFallbackItem] = useState(null);
+  const { items: cartItems, itemCount, isLoading: cartLoading } = useCart();
 
   function getPayload() {
     return {
@@ -61,25 +64,66 @@ export default function CheckoutForm() {
 
   const fetchCartPreview = useCallback(async () => {
     try {
-      const res = await fetch("/api/checkout", {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setPreview(data.checkout || data.preview || data);
-      } else {
-        setPreview(null);
+      let latest = null;
+
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        const res = await fetch("/api/checkout", {
+          method: "GET",
+          credentials: "include",
+          cache: "no-store",
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok) {
+          latest = data.checkout || data.preview || data;
+          if (latest?.items?.length) break;
+        }
+
+        if (attempt < 2) {
+          await new Promise((resolve) => setTimeout(resolve, 300));
+        }
+      }
+
+      setPreview(latest);
+      if (latest?.items?.length) {
+        setFallbackItem(null);
+        try {
+          sessionStorage.removeItem("instant-buy");
+        } catch {
+          // ignore
+        }
       }
     } catch (err) {
       console.error("Failed to fetch checkout preview:", err);
-      setPreview(null);
     }
   }, []);
 
   useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("instant-buy");
+      if (!raw) return;
+      const saved = JSON.parse(raw);
+      if (!saved?.name) return;
+      const price = Number(saved.price) || 0;
+      const quantity = saved.quantity || 1;
+      setFallbackItem({
+        id: "instant-buy",
+        name: saved.name,
+        image: saved.image || null,
+        quantity,
+        price,
+        lineTotal: price * quantity,
+        variantLabel: saved.variantLabel || "",
+      });
+    } catch {
+      // ignore unreadable snapshots
+    }
+  }, []);
+
+  useEffect(() => {
+    if (cartLoading) return;
     fetchCartPreview();
-  }, [fetchCartPreview]);
+  }, [fetchCartPreview, cartLoading, itemCount]);
 
   async function placeOrder() {
     const clientError = validateClient();
@@ -160,7 +204,11 @@ export default function CheckoutForm() {
       </div>
 
       <div className="lg:sticky lg:top-24 lg:self-start">
-        <OrderSummary preview={preview} />
+        <OrderSummary
+          preview={preview}
+          cartItems={cartItems}
+          fallbackItem={fallbackItem}
+        />
       </div>
     </div>
   );

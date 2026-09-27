@@ -7,10 +7,12 @@ import Container from "@/components/layout/Container";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/hooks/queries/useAuth";
+import { useSiteBrand } from "@/components/layout/SiteBrand";
 
 export default function RegisterPage() {
   const router = useRouter();
   const { register, isRegistering } = useAuth();
+  const { siteName } = useSiteBrand();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -32,7 +34,7 @@ export default function RegisterPage() {
       >
         <div>
           <h1 className="text-2xl font-bold">Create account</h1>
-          <p className="text-sm opacity-70">Join FlexShop in a minute</p>
+          <p className="text-sm text-base-content/80">Join {siteName} in a minute</p>
         </div>
 
         <Input

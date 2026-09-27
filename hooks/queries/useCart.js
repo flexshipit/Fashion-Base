@@ -33,9 +33,9 @@ export function useCart() {
       if (!res.ok) throw new Error(data.message || "Could not add to cart");
       return data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-      toast.success("Added to cart");
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+      toast.success(data?.message || "Added to cart");
     },
     onError: (error) => toast.error(error.message),
   });
@@ -79,6 +79,7 @@ export function useCart() {
     itemCount,
     isLoading: query.isLoading,
     addItem: addItem.mutateAsync,
+    isAdding: addItem.isPending,
     updateItem: updateItem.mutateAsync,
     removeItem: removeItem.mutateAsync,
   };

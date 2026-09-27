@@ -12,11 +12,13 @@ import {
   Settings2,
   ShoppingBag,
   Star,
+  Store,
 } from "lucide-react";
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/homepage", label: "Homepage", icon: LayoutTemplate },
+  { href: "/admin/settings", label: "Store settings", icon: Store },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
   { href: "/admin/attributes", label: "Attributes", icon: Settings2 },

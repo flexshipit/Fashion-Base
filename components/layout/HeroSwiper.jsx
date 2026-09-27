@@ -97,11 +97,11 @@ export default function HeroSwiper({ slides = [] }) {
 
                 <div className="flex items-center gap-5 pt-2">
                   {slide.price ? (
-                    <div className="flex flex-col">
-                      <span className="text-[10px] uppercase tracking-wider text-white/50 sm:text-xs">
+                    <div className="flex flex-col rounded-sm bg-black/45 px-3 py-1.5 backdrop-blur-sm">
+                      <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90">
                         Price
                       </span>
-                      <span className="text-xl font-extrabold tracking-tight text-primary sm:text-2xl md:text-3xl">
+                      <span className="text-2xl font-semibold tracking-tight text-[#f7f1e4] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:text-3xl md:text-4xl">
                         {slide.price}
                       </span>
                     </div>
@@ -170,7 +170,7 @@ export default function HeroSwiper({ slides = [] }) {
 
         .custom-bullet-active {
           width: 32px;
-          background-color: hsl(var(--p));
+          background-color: #f7f1e4;
           border-radius: 9999px;
         }
       `}</style>

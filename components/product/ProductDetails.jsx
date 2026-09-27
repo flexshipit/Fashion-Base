@@ -172,7 +172,7 @@ import { useReviews } from "@/hooks/queries/useReviews";
 
 export default function ProductDetails({ product }) {
   const router = useRouter();
-  const { addItem } = useCart();
+  const { addItem, isAdding } = useCart();
   const { has, add, remove } = useWishlist();
   const { data: reviews = [], isLoading: reviewsLoading } = useReviews(
     product.slug,
@@ -203,6 +203,7 @@ export default function ProductDetails({ product }) {
   const stock = hasVariants ? (variant?.stock ?? 0) : (product.stock ?? 0);
   const liked = has(product._id);
   const outOfStock = stock <= 0;
+  const currentImage = galleryImages[selectedImageIndex] || galleryImages[0];
 
   const handleQuantityChange = (delta) => {
     setQuantity((prev) => {
@@ -222,18 +223,38 @@ export default function ProductDetails({ product }) {
   };
 
   const handleBuyNow = async () => {
-    if (outOfStock || (hasVariants && !variant)) return;
+    if (outOfStock || (hasVariants && !variant) || isAdding) return;
+
+    const quantityToBuy = Math.max(1, Math.trunc(Number(quantity) || 1));
 
     await addItem({
       productId: product._id,
       variantId: variant?._id || null,
-      quantity: Math.max(1, Math.trunc(Number(quantity) || 1)),
+      quantity: quantityToBuy,
     });
+
+    const variantLabel = (variant?.attributes || [])
+      .map((attr) => attr.valueName || attr.value || attr.attributeName)
+      .filter(Boolean)
+      .join(" / ");
+
+    try {
+      sessionStorage.setItem(
+        "instant-buy",
+        JSON.stringify({
+          name: product.name,
+          image: currentImage?.url || galleryImages[0]?.url || "",
+          price,
+          quantity: quantityToBuy,
+          variantLabel,
+        }),
+      );
+    } catch {
+      // Checkout still reads the cart if storage is unavailable.
+    }
 
     router.push("/checkout");
   };
-
-  const currentImage = galleryImages[selectedImageIndex] || galleryImages[0];
 
   return (
     <div className="w-full pb-24 px-4 sm:px-8 lg:px-12 max-w-[1400px] mx-auto font-sans">
@@ -289,8 +310,8 @@ export default function ProductDetails({ product }) {
                   onClick={() => setSelectedImageIndex(idx)}
                   className={`relative flex-shrink-0 w-14 h-16 sm:w-16 sm:h-20 border transition-all overflow-hidden rounded-sm ${
                     selectedImageIndex === idx
-                      ? "border-black ring-1 ring-black"
-                      : "border-base-300 opacity-60 hover:opacity-100"
+                      ? "border-base-content ring-1 ring-base-content"
+                      : "border-base-300 opacity-80 hover:opacity-100"
                   }`}
                 >
                   <img
@@ -407,7 +428,7 @@ export default function ProductDetails({ product }) {
                   onClick={() =>
                     liked ? remove(product._id) : add(product._id)
                   }
-                  className="flex h-12 w-14 items-center justify-center border border-base-300 transition-colors hover:border-black hover:bg-black hover:text-white"
+                  className="flex h-12 w-14 items-center justify-center border border-base-content/40 text-base-content transition-colors hover:border-base-content hover:bg-base-content hover:text-base-100"
                   aria-label="Toggle Wishlist"
                 >
                   <Heart
@@ -421,7 +442,7 @@ export default function ProductDetails({ product }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <button
                   type="button"
-                  disabled={outOfStock || (hasVariants && !variant)}
+                  disabled={outOfStock || (hasVariants && !variant) || isAdding}
                   onClick={() =>
                     addItem({
                       productId: product._id,
@@ -429,7 +450,7 @@ export default function ProductDetails({ product }) {
                       quantity: Math.max(1, Math.trunc(Number(quantity) || 1)),
                     })
                   }
-                  className="flex h-13 items-center justify-center gap-2 border border-black bg-transparent text-black text-sm font-bold uppercase tracking-[0.18em] transition-all hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:border-base-300 disabled:text-base-content/30"
+                  className="flex h-12 items-center justify-center gap-2 border border-base-content bg-base-100 text-base-content text-sm font-semibold uppercase tracking-[0.18em] transition-all hover:bg-base-content hover:text-base-100 disabled:cursor-not-allowed disabled:border-base-300 disabled:bg-transparent disabled:text-base-content/45"
                 >
                   <ShoppingBag size={18} />
                   Add to Bag
@@ -437,9 +458,9 @@ export default function ProductDetails({ product }) {
 
                 <button
                   type="button"
-                  disabled={outOfStock || (hasVariants && !variant)}
+                  disabled={outOfStock || (hasVariants && !variant) || isAdding}
                   onClick={handleBuyNow}
-                  className="flex h-13 items-center justify-center gap-2 bg-black text-white text-sm font-bold uppercase tracking-[0.18em] transition-all hover:bg-primary hover:text-primary-content shadow-md disabled:cursor-not-allowed disabled:bg-base-300 disabled:text-base-content/30"
+                  className="flex h-12 items-center justify-center gap-2 bg-base-content text-base-100 text-sm font-semibold uppercase tracking-[0.18em] shadow-md transition-all hover:bg-accent hover:text-accent-content disabled:cursor-not-allowed disabled:bg-base-300 disabled:text-base-content/45"
                 >
                   <Zap size={18} className="fill-current" />
                   Instant Buy

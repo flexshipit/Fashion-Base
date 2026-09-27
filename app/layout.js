@@ -3,6 +3,7 @@ import Providers from "@/app/providers";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import config from "@/lib/config";
+import { getSiteSettings } from "@/lib/site/getSiteSettings";
 import "./globals.css";
 import TopSection from "@/components/layout/TopSection";
 import SmoothScroll from "@/components/layout/SmoothScroll";
@@ -24,12 +25,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "FlexShop",
-  description: "Premium fashion and lifestyle shopping",
-};
+export async function generateMetadata() {
+  const site = await getSiteSettings();
 
-export default function RootLayout({ children }) {
+  return {
+    title: site.siteName,
+    description: site.description,
+    icons: site.favicon?.url
+      ? {
+          icon: [{ url: site.favicon.url }],
+          shortcut: [{ url: site.favicon.url }],
+          apple: [{ url: site.favicon.url }],
+        }
+      : undefined,
+  };
+}
+
+export default async function RootLayout({ children }) {
+  const site = await getSiteSettings();
+
   return (
     <html
       lang="en"
@@ -37,7 +51,10 @@ export default function RootLayout({ children }) {
       className={`${display.variable} ${body.variable} ${geistMono.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
-        <Providers imagekitUrlEndpoint={config.imagekitUrlEndpoint || ""}>
+        <Providers
+          imagekitUrlEndpoint={config.imagekitUrlEndpoint || ""}
+          site={site}
+        >
           <SmoothScroll>
             <div className="store-surface flex min-h-screen flex-col">
               <TopSection />

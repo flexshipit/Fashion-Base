@@ -168,6 +168,8 @@ import {
 import { useState } from "react";
 import Container from "@/components/layout/Container";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import { useSiteBrand } from "@/components/layout/SiteBrand";
+import { splitBrandName } from "@/lib/site/defaults";
 import { useAuth } from "@/hooks/queries/useAuth";
 import { useCart } from "@/hooks/queries/useCart";
 import { useWishlist } from "@/hooks/queries/useWishlist";
@@ -185,6 +187,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { user, logout, isLoading } = useAuth();
+  const { siteName, logo } = useSiteBrand();
+  const brand = splitBrandName(siteName);
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
 
@@ -215,9 +219,21 @@ export default function Navbar() {
 
           <Link
             href="/"
-            className="font-display text-2xl font-medium tracking-wide shrink-0"
+            className="flex items-center gap-2 font-display text-2xl font-medium tracking-wide shrink-0 text-base-content"
           >
-            Flex<span className="text-accent">Shop</span>
+            {logo?.url ? (
+              <img
+                src={logo.url}
+                alt=""
+                className="h-8 w-8 object-contain"
+              />
+            ) : null}
+            <span>
+              {brand.lead}
+              {brand.accent ? (
+                <span className="text-accent">{brand.accent}</span>
+              ) : null}
+            </span>
           </Link>
         </div>
 
@@ -249,7 +265,7 @@ export default function Navbar() {
                 className={`px-3 py-2 text-[11px] font-medium uppercase tracking-[0.18em] transition ${
                   pathname === link.href
                     ? "text-base-content"
-                    : "text-base-content/55 hover:text-base-content"
+                    : "text-base-content/75 hover:text-base-content"
                 }`}
               >
                 {link.label}

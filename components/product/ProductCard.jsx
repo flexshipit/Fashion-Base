@@ -143,7 +143,7 @@ export default function ProductCard({ product }) {
         <div className="absolute inset-x-2 bottom-2 z-10 translate-y-3 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 hidden sm:block">
           <Link
             href={href}
-            className="flex w-full items-center justify-center gap-1.5 bg-black text-white py-2.5 text-[11px] font-medium tracking-[0.15em] uppercase transition-all hover:bg-primary hover:text-primary-content"
+            className="flex w-full items-center justify-center gap-1.5 bg-base-content text-base-100 py-2.5 text-[11px] font-medium tracking-[0.15em] uppercase transition-all hover:bg-accent hover:text-accent-content"
           >
             <span>Select Options</span>
             <ArrowUpRight size={13} />
@@ -162,11 +162,11 @@ export default function ProductCard({ product }) {
 
         {/* PRICE DISPLAY */}
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold tracking-tight text-base-content">
+          <span className="text-sm font-semibold tracking-tight text-base-content">
             ৳{price}
           </span>
           {original && original > price ? (
-            <span className="text-[11px] line-through text-base-content/40">
+            <span className="text-xs line-through text-base-content/65">
               ৳{original}
             </span>
           ) : null}
