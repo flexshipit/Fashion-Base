@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, Manrope, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Providers from "@/app/providers";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -8,22 +8,31 @@ import "./globals.css";
 import TopSection from "@/components/layout/TopSection";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 
-const display = Cormorant_Garamond({
+const display = localFont({
+  src: "./fonts/cormorant-garamond-latin-wght-normal.woff2",
   variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "300 700",
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
-const body = Manrope({
+const body = localFont({
+  src: "./fonts/manrope-latin-wght-normal.woff2",
   variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "200 800",
+  display: "swap",
+  fallback: ["system-ui", "sans-serif"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "./fonts/geist-mono-latin-wght-normal.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: "100 900",
+  display: "swap",
+  fallback: ["ui-monospace", "monospace"],
 });
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
   const site = await getSiteSettings();
