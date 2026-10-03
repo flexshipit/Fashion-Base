@@ -205,12 +205,11 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-base-300/50 bg-base-100/85 backdrop-blur-md">
-      <Container className="flex h-[4.25rem] items-center justify-between gap-4">
-        {/* LEFT: Mobile Menu Button & Brand Logo */}
-        <div className="flex items-center gap-3">
+      <Container className="flex h-14 min-w-0 items-center justify-between gap-2 sm:h-[4.25rem] sm:gap-4">
+        <div className="flex min-w-0 items-center gap-1.5 sm:gap-3">
           <button
             type="button"
-            className="btn btn-ghost btn-sm btn-square lg:hidden"
+            className="btn btn-ghost btn-sm btn-square shrink-0 lg:hidden"
             onClick={() => setOpen((value) => !value)}
             aria-label="Open menu"
           >
@@ -219,16 +218,16 @@ export default function Navbar() {
 
           <Link
             href="/"
-            className="flex items-center gap-2 font-display text-2xl font-medium tracking-wide shrink-0 text-base-content"
+            className="flex min-w-0 items-center gap-2 font-display text-xl font-medium tracking-wide text-base-content sm:text-2xl"
           >
             {logo?.url ? (
               <img
                 src={logo.url}
                 alt=""
-                className="h-8 w-8 object-contain"
+                className="h-7 w-7 shrink-0 object-contain sm:h-8 sm:w-8"
               />
             ) : null}
-            <span>
+            <span className="truncate">
               {brand.lead}
               {brand.accent ? (
                 <span className="text-accent">{brand.accent}</span>
@@ -237,8 +236,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* MIDDLE: Search Bar (Desktop / Large Screens) */}
-        <div className="hidden flex-1 max-w-md mx-4 md:flex">
+        <div className="hidden min-w-0 flex-1 max-w-md mx-4 md:flex">
           <form onSubmit={handleSearch} className="relative w-full">
             <input
               type="text"
@@ -254,9 +252,7 @@ export default function Navbar() {
           </form>
         </div>
 
-        {/* RIGHT AREA: Nav Text Links + Icons */}
-        <div className="flex items-center gap-2 lg:gap-3">
-          {/* Navigation Text Links */}
+        <div className="flex shrink-0 items-center gap-0.5 sm:gap-2 lg:gap-3">
           <nav className="hidden items-center gap-0.5 lg:flex">
             {links.map((link) => (
               <Link
@@ -273,13 +269,12 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* UTMOST RIGHT: Action Icons & User Controls */}
-          <div className="flex items-center gap-0.5">
+          <div className="flex items-center gap-0">
             <ThemeToggle />
 
             <Link
               href="/track"
-              className="btn btn-ghost btn-sm btn-circle"
+              className="btn btn-ghost btn-sm btn-circle hidden sm:inline-flex"
               aria-label="Track order"
               title="Track order"
             >
@@ -313,7 +308,7 @@ export default function Navbar() {
             </Link>
 
             {!isLoading && user ? (
-              <div className="dropdown dropdown-end">
+              <div className="dropdown dropdown-end hidden sm:block">
                 <button
                   type="button"
                   tabIndex={0}
@@ -344,7 +339,10 @@ export default function Navbar() {
                 </ul>
               </div>
             ) : (
-              <Link href="/login" className="btn btn-primary btn-sm ml-1">
+              <Link
+                href="/login"
+                className="btn btn-primary btn-sm ml-1 hidden sm:inline-flex"
+              >
                 Login
               </Link>
             )}
@@ -352,24 +350,24 @@ export default function Navbar() {
         </div>
       </Container>
 
-      {/* MOBILE SEARCH BAR: Displayed under the navbar on smaller screens */}
-      <div className="block md:hidden border-t border-base-300/40 px-4 py-2">
-        <form onSubmit={handleSearch} className="relative w-full">
-          <input
-            type="text"
-            placeholder="Search the collection..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="input input-bordered input-sm w-full pl-9 pr-4 bg-base-100/80 border-base-300 focus:outline-none focus:border-base-content/40"
-          />
-          <Search
-            size={15}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40"
-          />
-        </form>
+      <div className="border-t border-base-300/40 py-2 md:hidden">
+        <Container>
+          <form onSubmit={handleSearch} className="relative w-full">
+            <input
+              type="text"
+              placeholder="Search the collection..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="input input-bordered input-sm w-full pl-9 pr-4 bg-base-100/80 border-base-300 focus:outline-none focus:border-base-content/40"
+            />
+            <Search
+              size={15}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40"
+            />
+          </form>
+        </Container>
       </div>
 
-      {/* MOBILE NAVIGATION MENU DROPDOWN */}
       {open ? (
         <div className="border-t border-base-300 lg:hidden">
           <Container className="flex flex-col gap-1 py-3">
@@ -377,12 +375,43 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-2 py-3 text-xs font-medium uppercase tracking-[0.2em] text-base-content/70"
+                className="px-1 py-3 text-xs font-medium uppercase tracking-[0.2em] text-base-content/70"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
+            {!isLoading && user ? (
+              <>
+                {user.role === "admin" ? (
+                  <Link
+                    href="/admin"
+                    className="px-1 py-3 text-xs font-medium uppercase tracking-[0.2em] text-base-content/70"
+                    onClick={() => setOpen(false)}
+                  >
+                    Admin
+                  </Link>
+                ) : null}
+                <button
+                  type="button"
+                  className="px-1 py-3 text-left text-xs font-medium uppercase tracking-[0.2em] text-base-content/70"
+                  onClick={() => {
+                    setOpen(false);
+                    logout();
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="px-1 py-3 text-xs font-medium uppercase tracking-[0.2em] text-base-content/70"
+                onClick={() => setOpen(false)}
+              >
+                Login
+              </Link>
+            )}
           </Container>
         </div>
       ) : null}

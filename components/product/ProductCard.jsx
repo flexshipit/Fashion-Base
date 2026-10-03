@@ -87,7 +87,7 @@ export default function ProductCard({ product }) {
     product.originalPrice ?? product.variants?.[0]?.originalPrice;
 
   return (
-    <article className="group relative flex flex-col w-full max-w-[280px] sm:max-w-none mx-auto transition-all duration-500">
+    <article className="group relative flex min-w-0 w-full flex-col transition-all duration-500">
       {/* COMPACT IMAGE CONTAINER */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-base-200/50 border border-base-300/50 transition-colors duration-500 group-hover:border-base-content/30">
         <Link href={href} className="block h-full w-full relative">

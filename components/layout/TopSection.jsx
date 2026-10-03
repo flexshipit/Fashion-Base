@@ -12,7 +12,7 @@ const TopSection = () => {
   }
 
   return (
-    <div className="bg-neutral text-neutral-content text-center py-2.5 text-[11px] font-medium uppercase tracking-[0.28em]">
+    <div className="bg-neutral px-4 py-2 text-center text-[10px] font-medium uppercase leading-snug tracking-[0.12em] text-neutral-content sm:px-6 sm:py-2.5 sm:text-[11px] sm:tracking-[0.28em]">
       {announcement}
     </div>
   );

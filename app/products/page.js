@@ -46,7 +46,7 @@ function ProductsPageContent() {
   const products = data?.products || [];
 
   return (
-    <Container className="space-y-6 py-10">
+    <Container className="space-y-6 py-6 sm:py-10">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold">Products</h1>
         <p className="text-sm opacity-70">Browse and filter the catalog.</p>

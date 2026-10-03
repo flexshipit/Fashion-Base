@@ -113,6 +113,8 @@ body {
 html,
 body {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -132,6 +134,8 @@ h3,
 
 /* Quiet luxury atmosphere */
 .store-surface {
+  overflow-x: clip;
+  width: 100%;
   background:
     radial-gradient(
       1000px 420px at 0% 0%,
@@ -152,11 +156,18 @@ h3,
 
 /* Premium section rhythm */
 .section-eyebrow {
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 500;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: color-mix(in oklab, var(--color-base-content) 72%, transparent);
+}
+
+@media (min-width: 640px) {
+  .section-eyebrow {
+    font-size: 0.6875rem;
+    letter-spacing: 0.35em;
+  }
 }
 
 .section-title {

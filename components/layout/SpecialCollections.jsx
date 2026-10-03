@@ -19,9 +19,9 @@ export default function SpecialCollections({ collections = [] }) {
   if (!items.length) return null;
 
   return (
-    <section className="border-t border-base-300/50 py-16 md:py-20">
+    <section className="border-t border-base-300/50 py-10 md:py-20">
       <Container>
-        <div className="mb-10 flex items-end justify-between gap-4 md:mb-12">
+        <div className="mb-8 flex items-end justify-between gap-3 md:mb-12">
           <div>
             <p className="section-eyebrow">Curated</p>
             <h2 className="section-title mt-2 text-3xl text-base-content md:text-4xl">
@@ -50,7 +50,7 @@ export default function SpecialCollections({ collections = [] }) {
           <Swiper
             modules={[Navigation, Pagination]}
             spaceBetween={12}
-            slidesPerView={1.15}
+            slidesPerView={1.08}
             centeredSlides={false}
             grabCursor
             speed={650}
@@ -74,7 +74,7 @@ export default function SpecialCollections({ collections = [] }) {
                 spaceBetween: 18,
               },
             }}
-            className="!overflow-visible"
+            className="overflow-hidden"
           >
             {items.map((item) => {
               const imageUrl =

@@ -17,8 +17,8 @@ export default function Footer() {
   }
 
   return (
-    <footer className="mt-20 border-t border-base-300/70 bg-base-200/40">
-      <Container className="grid gap-10 py-14 md:grid-cols-3">
+    <footer className="mt-12 border-t border-base-300/70 bg-base-200/40 md:mt-20">
+      <Container className="grid gap-8 py-10 md:grid-cols-3 md:gap-10 md:py-14">
         <div>
           <p className="flex items-center gap-2 font-display text-2xl tracking-wide text-base-content">
             {logo?.url ? (

@@ -36,9 +36,9 @@ export default function HomePage() {
 
       <CategoryShowcase categories={categoryList} />
 
-      <section className="border-t border-base-300/50 py-16 md:py-20">
+      <section className="border-t border-base-300/50 py-10 md:py-20">
         <Container>
-          <div className="mb-10 flex items-end justify-between gap-4 md:mb-12">
+          <div className="mb-8 flex items-end justify-between gap-3 md:mb-12">
             <div>
               <p className="section-eyebrow">Just in</p>
               <h2 className="section-title mt-2 text-3xl text-base-content md:text-4xl">

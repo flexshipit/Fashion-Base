@@ -28,7 +28,7 @@ const CARD_STYLES = [
     frame: "p-2",
     aspect: "aspect-[5/6]",
     object: "object-[center_15%]",
-    shape: "rounded-none rotate-[-1.5deg] group-hover:rotate-0",
+    shape: "rounded-none md:rotate-[-1.5deg] md:group-hover:rotate-0",
   },
 ];
 
@@ -36,9 +36,9 @@ export default function CategoryShowcase({ categories = [] }) {
   const list = Array.isArray(categories) ? categories.slice(0, 4) : [];
 
   return (
-    <section className="border-t border-base-300/50 py-16 md:py-20">
+    <section className="border-t border-base-300/50 py-10 md:py-20">
       <Container>
-        <div className="mb-10 flex items-end justify-between gap-4 md:mb-12">
+        <div className="mb-8 flex items-end justify-between gap-3 md:mb-12">
           <div>
             <p className="section-eyebrow">Explore</p>
             <h2 className="section-title mt-2 text-3xl text-base-content md:text-4xl">
@@ -59,7 +59,7 @@ export default function CategoryShowcase({ categories = [] }) {
             No categories yet. Add some from admin.
           </p>
         ) : (
-          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-x-5 gap-y-8 sm:gap-x-8 sm:gap-y-10 md:max-w-5xl md:grid-cols-4 md:gap-x-6 lg:gap-x-8">
+          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-x-3 gap-y-7 sm:gap-x-8 sm:gap-y-10 md:max-w-5xl md:grid-cols-4 md:gap-x-6 lg:gap-x-8">
             {list.map((category, index) => {
               const imageUrl = category.image?.url || null;
               const style = CARD_STYLES[index % CARD_STYLES.length];

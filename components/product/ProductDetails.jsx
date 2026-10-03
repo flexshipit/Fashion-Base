@@ -329,8 +329,8 @@ export default function ProductDetails({ product }) {
         <div className="lg:col-span-6 lg:sticky lg:top-24 h-fit space-y-6">
           {/* CATEGORY & TITLE */}
           <div className="space-y-3 border-b border-base-300/80 pb-5">
-            <div className="flex items-center justify-between gap-4">
-              <span className="text-sm font-bold uppercase tracking-[0.2em] text-base-content/60">
+            <div className="flex min-w-0 flex-wrap items-center justify-between gap-2 sm:gap-4">
+              <span className="min-w-0 truncate text-xs font-bold uppercase tracking-[0.12em] text-base-content/60 sm:text-sm sm:tracking-[0.2em]">
                 {product.category?.name || "Haute Couture"}
               </span>
               {stock > 0 && stock <= 5 && (

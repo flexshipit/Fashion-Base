@@ -62,7 +62,7 @@ export default function HeroSwiper({ slides = [] }) {
           prevEl: ".custom-swiper-prev",
           nextEl: ".custom-swiper-next",
         }}
-        className="relative h-[85vh] min-h-[600px] w-full max-h-[900px]"
+        className="relative h-[62vh] min-h-[420px] w-full max-h-[560px] sm:h-[85vh] sm:min-h-[560px] sm:max-h-[900px]"
       >
         {resolved.map((slide) => (
           <SwiperSlide key={slide.id} className="relative h-full w-full">
@@ -81,21 +81,21 @@ export default function HeroSwiper({ slides = [] }) {
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
             </div>
 
-            <div className="absolute bottom-12 left-6 z-10 max-w-xl text-white sm:bottom-14 sm:left-10 md:bottom-16 md:left-14 lg:max-w-2xl">
+            <div className="absolute inset-x-4 bottom-16 z-10 max-w-xl text-white sm:inset-x-auto sm:bottom-14 sm:left-10 md:bottom-16 md:left-14 lg:max-w-2xl">
               <div className="space-y-3">
                 {slide.subtitle ? (
-                  <span className="inline-block rounded-full border border-white/20 bg-white/10 px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.3em] text-white/90 backdrop-blur-md sm:text-xs">
+                  <span className="inline-block max-w-full truncate rounded-full border border-white/20 bg-white/10 px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white/90 backdrop-blur-md sm:tracking-[0.3em] sm:text-xs">
                     {slide.subtitle}
                   </span>
                 ) : null}
 
                 {slide.title ? (
-                  <h1 className="text-2xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl text-balance">
+                  <h1 className="text-2xl font-bold tracking-tight text-balance text-white sm:text-4xl md:text-5xl lg:text-6xl">
                     {slide.title}
                   </h1>
                 ) : null}
 
-                <div className="flex items-center gap-5 pt-2">
+                <div className="flex flex-col items-start gap-3 pt-1 sm:flex-row sm:items-center sm:gap-5 sm:pt-2">
                   {slide.price ? (
                     <div className="flex flex-col rounded-sm bg-black/45 px-3 py-1.5 backdrop-blur-sm">
                       <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90">
@@ -107,16 +107,16 @@ export default function HeroSwiper({ slides = [] }) {
                     </div>
                   ) : null}
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
                     <Link
                       href={slide.link}
-                      className="btn btn-primary rounded-full px-5 text-xs font-semibold sm:px-7 sm:text-sm"
+                      className="btn btn-primary min-h-10 rounded-full px-4 text-xs font-semibold sm:px-7 sm:text-sm"
                     >
                       {slide.buttonText}
                     </Link>
                     <Link
                       href="/products"
-                      className="btn btn-outline border-white/30 text-white rounded-full transition-all duration-300 hover:border-white hover:bg-white hover:text-black text-xs sm:text-sm"
+                      className="btn btn-outline min-h-10 rounded-full border-white/30 text-xs text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black sm:text-sm"
                     >
                       Explore Line
                     </Link>
